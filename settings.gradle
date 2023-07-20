@@ -1,0 +1,3 @@
+rootProject.name = 'Automata4j'
+include('automata4j')
+include('automata4j-examples')
