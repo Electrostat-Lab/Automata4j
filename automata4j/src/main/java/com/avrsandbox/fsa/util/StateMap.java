@@ -7,7 +7,7 @@ import com.avrsandbox.fsa.core.state.AutoState;
  * Provides a state-map composed of two states, a present-state and a next-state.
  * 
  * @author pavl_g
- * @see {@link TransitionalManager#transit(StateMap, com.avrsandbox.fsa.core.state.TransitionListener)}
+ * @see TransitionalManager#transit(StateMap, com.avrsandbox.fsa.core.state.TransitionListener)
  */
 public final class StateMap<S extends AutoState<?, ?>> {
 
@@ -33,14 +33,19 @@ public final class StateMap<S extends AutoState<?, ?>> {
     }
     
     /**
+     * Assigns the present state to this map object.
      * 
-     * 
-     * @param presentState
+     * @param presentState the present state object
      */
     public void assignPresentState(S presentState) {
         this.presentState = presentState;
     }
     
+    /**
+     * Assigns the next state to this map object.
+     * 
+     * @param nextState the next state object
+     */
     public void assignNextState(S nextState) {
         this.nextState = nextState;
     }
@@ -63,14 +68,23 @@ public final class StateMap<S extends AutoState<?, ?>> {
         return presentState;
     }
 
+    /**
+     * Nullifies the present state reference.
+     */
     public void removePresentState() {
         presentState = null;
     }
 
+    /**
+     * Nullifies the next state reference.
+     */
     public void removeNextState() {
         nextState = null;
     }
 
+    /**
+     * Nullifies all object references for the GC.
+     */
     public void removeAll() {
         removePresentState();
         removeNextState();

@@ -55,7 +55,7 @@ public final class Transition<S extends AutoState<?, ?>> {
     /**
      * Removes the state from the heap memory.
      * 
-     * @apiNote warning, this removes the deep copy aka. the real pointer
+     * Warning, this removes the deep copy aka. the real pointer
      * from your heap memory, so you might expect uneventful results.
      */
     public void remove() {
