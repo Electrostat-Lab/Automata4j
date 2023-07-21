@@ -39,7 +39,7 @@ jobs:
         - name: Archive build
           uses: actions/upload-artifact@v3
           with:
-            name: snaploader-snapshot
+            name: automata4j-snapshot
             path: automata4j/build/libs/
 
     test-doc-generation:
