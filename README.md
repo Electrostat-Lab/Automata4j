@@ -12,6 +12,9 @@ A finite state automaton API for Java, Android, and jMonkeyEngine Applications.
 - [ ] Wiki for general use.
 - [ ] Publishing to Maven for public use.
 
-### For more about Finite-States, use this TextBook: 
-![image](https://github.com/Software-Hardware-Codesign/Automata4j/assets/60224159/d28b39b0-28f3-43e2-859e-787a5e8f88e1)
+### Theory Archive: 
+- [Finite-State-Automaton Theory Archive, from Switching and Finite Automata Theory 3rd Edition](https://github.com/Software-Hardware-Codesign/Automata4j/blob/master/archives/Finite-State-Automata.pdf)
+
+### For more about Finite-States, find the full TextBook: 
+[![](https://github.com/Software-Hardware-Codesign/Automata4j/assets/60224159/d28b39b0-28f3-43e2-859e-787a5e8f88e1)](https://www.amazon.com/Switching-Finite-Automata-Theory-Kohavi/dp/0521857481)
 
