@@ -6,6 +6,7 @@ package com.avrsandbox.fsa.core.state;
  * @author pavl_g
  */
 public enum CloneType {
+    
     /**
      * Delegate to perform a superficial clone -- memory reference object.
      */
@@ -16,7 +17,7 @@ public enum CloneType {
      */
     DEEP(0b100000000);
 
-    final int code;
+    private final int code;
 
     /**
      * Instantiates a new clone type.

@@ -21,7 +21,11 @@ public class TransitionalManager {
      * The system transition. 
      */
     protected final Transition<AutoState<?, ?>> transition = new Transition<>();
-    private static final Logger LOGGER = Logger.getLogger(TransitionalManager.class.getName());
+
+    /**
+     * A general purpose logger for this manager object.
+     */
+    protected static final Logger logger = Logger.getLogger(TransitionalManager.class.getName());
     
     /**
      * Assigns a new next state.
@@ -34,7 +38,7 @@ public class TransitionalManager {
      */
     public <I, O> void assignNextState(AutoState<I, O> autostate) { 
         transition.setNextState(autostate);
-        LOGGER.log(Level.INFO, "Assigned a new state " + autostate);
+        logger.log(Level.INFO, "Assigned a new state " + autostate);
     }
 
     /**
@@ -58,7 +62,6 @@ public class TransitionalManager {
      * @param map the system state-map holding a presentstate and a nextstate
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
-     * @throws InterruptedException thrown if the application has interrupted the system during the latency period
      */
     public <I, O> void transit(final StateMap<AutoState<I, O>> map, final TransitionListener transitionListener) {
         transit(map.getPresentState().getInput(), transitionListener);
@@ -106,11 +109,11 @@ public class TransitionalManager {
      * @param input the state input
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
-     * @throws InterruptedException thrown if the application has interrupted the system during the latency period
+     * @throws NullPointerException thrown if a pointer to the next state is not found
      */
     public <I, O> void transit(final I input, final TransitionListener transitionListener) throws NullPointerException {
         final AutoState<I, O> autostate = (AutoState<I, O>) transition.getNextState();
-        LOGGER.log(Level.INFO, "Transitting into a new state " + autostate);
+        logger.log(Level.INFO, "Transitting into a new state " + autostate);
         autostate.onStart();
         autostate.invoke(input);
         transitionListener.onTransition(autostate);

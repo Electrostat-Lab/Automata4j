@@ -45,9 +45,8 @@ public interface AutoState<I, O> {
     /**
      * Clones object either deeply or superficially.
      * 
-     * @apiNote use for debugging purposes only 
-     * @param cloneType
-     * @return
+     * @param cloneType either superficial or deep
+     * @return a clone of this object
      */
     default AutoState<I, O> clone(final CloneType cloneType) {
         /* sanity perform a superficial copy */
@@ -96,7 +95,9 @@ public interface AutoState<I, O> {
     }
     
     /**
-     * @apiNote internal use-only !
+     * Internal use-only !
+     * 
+     * @param substrate the object to clone
      */
     default void setCloneSubstrate(final AutoState<I, O> substrate) {
     }
