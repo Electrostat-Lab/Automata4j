@@ -4,9 +4,14 @@
 A finite state automaton API for Java, Android, and jMonkeyEngine Applications.
 
 ## Appendix
+### Features:
 - [x] Finite-State-Machine pattern.
 - [x] SerialAdder Example.
 - [ ] API Documentation.
 - [ ] Document describing the finite-state theory.
 - [ ] Wiki for general use.
 - [ ] Publishing to Maven for public use.
+
+### For more about Finite-States, use this TextBook: 
+![image](https://github.com/Software-Hardware-Codesign/Automata4j/assets/60224159/d28b39b0-28f3-43e2-859e-787a5e8f88e1)
+
