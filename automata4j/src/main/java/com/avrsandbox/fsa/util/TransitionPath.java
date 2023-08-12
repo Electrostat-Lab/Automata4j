@@ -1,15 +1,46 @@
+/*
+ * BSD 3-Clause License
+ *
+ * Copyright (c) 2023, The AvrSandbox Project, Automata4j
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package com.avrsandbox.fsa.util;
 
 import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.state.AutoState;
 
 /**
- * Provides a state-map composed of two states, a present-state and a next-state.
+ * Provides a transition path composed of two states, a present-state and a next-state.
  * 
  * @author pavl_g
- * @see TransitionalManager#transit(StateMap, com.avrsandbox.fsa.core.state.TransitionListener)
+ * @see TransitionalManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
  */
-public final class StateMap<S extends AutoState> {
+public final class TransitionPath<S extends AutoState> {
 
     private String name;
     private S presentState;
@@ -20,7 +51,7 @@ public final class StateMap<S extends AutoState> {
      *
      * @param name the map name (not null)
      */
-    public StateMap(String name) {
+    public TransitionPath(String name) {
         this(name, null, null);
     }
 
@@ -30,7 +61,7 @@ public final class StateMap<S extends AutoState> {
      * @param presentState a present-state to transit to
      * @param nextState a next-state to assign for the next transition
      */
-    public StateMap(String name, S presentState, S nextState) {
+    public TransitionPath(String name, S presentState, S nextState) {
         this.name = name;
         this.presentState = presentState;
         this.nextState = nextState;
