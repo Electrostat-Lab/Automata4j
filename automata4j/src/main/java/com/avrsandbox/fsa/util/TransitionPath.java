@@ -9,16 +9,19 @@ import com.avrsandbox.fsa.core.state.AutoState;
  * @author pavl_g
  * @see TransitionalManager#transit(StateMap, com.avrsandbox.fsa.core.state.TransitionListener)
  */
-public final class StateMap<S extends AutoState<?, ?>> {
+public final class StateMap<S extends AutoState> {
 
+    private String name;
     private S presentState;
     private S nextState;
 
     /**
      * Instantiates a new state map with empty states
+     *
+     * @param name the map name (not null)
      */
-    public StateMap() {
-        this(null, null);
+    public StateMap(String name) {
+        this(name, null, null);
     }
 
     /**
@@ -27,7 +30,8 @@ public final class StateMap<S extends AutoState<?, ?>> {
      * @param presentState a present-state to transit to
      * @param nextState a next-state to assign for the next transition
      */
-    public StateMap(S presentState, S nextState) {
+    public StateMap(String name, S presentState, S nextState) {
+        this.name = name;
         this.presentState = presentState;
         this.nextState = nextState;
     }
@@ -66,6 +70,14 @@ public final class StateMap<S extends AutoState<?, ?>> {
      */
     public S getPresentState() {
         return presentState;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
