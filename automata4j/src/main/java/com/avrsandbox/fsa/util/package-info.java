@@ -29,22 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.core.state;
-
-import com.avrsandbox.fsa.core.TransitionalManager;
-
 /**
- * Loaded into the stack and disptached as a result of trying to call {@link TransitionalManager#transit(Object, TransitionListener)}
- * without assigning a next state or as a result of removing the state from the heap before transitting the system.
- * 
- * @author pavl_g
+ * Provides utilities for the framework.
  */
-public class NextStateNotFoundException extends NullPointerException {
-    
-    /**
-     * Instantiates a new exception as a result of transitting into an empty next-state.
-     */
-    public NextStateNotFoundException() {
-        super("Next-State of the transition is not found !");
-    }
-}
+package com.avrsandbox.fsa.util;

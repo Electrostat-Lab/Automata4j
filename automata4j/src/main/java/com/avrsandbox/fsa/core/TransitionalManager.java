@@ -1,3 +1,34 @@
+/*
+ * BSD 3-Clause License
+ *
+ * Copyright (c) 2023, The AvrSandbox Project, Automata4j
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package com.avrsandbox.fsa.core;
 
 import java.util.logging.Level;
@@ -5,14 +36,16 @@ import java.util.logging.Logger;
 import java.lang.Thread;
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.TransitionListener;
-import com.avrsandbox.fsa.util.StateMap;
+import com.avrsandbox.fsa.util.TransitionPath;
 
 /**
- * Represents the core component that drives and controls the flow of the Finite-State pattern by selectively assigning a new state, 
- * transitting into the newly assigned state and executing the state action.
- * 
+ * Represents the core component that drives and controls the flow of the Finite-State pattern by selectively assigning a new state,
+ * transiting into the newly assigned state and executing the state actions.
+ *
+ * <p>
  * Each transitional-manager object owns a transition object, the transition object describes a state in terms of memory.
- * 
+ * </p>
+ *
  * @author pavl_g
  */
 public class TransitionalManager {
@@ -55,35 +88,34 @@ public class TransitionalManager {
     }
     
     /**
-     * Transits to the next-state from a state-map.
+     * Transits to the next-state from a state-transitionPath.
      * 
      * @param <I> the state input type
      * @param <O> the state tracer object type
-     * @param map the system state-map holding a presentstate and a nextstate
+     * @param transitionPath the system state-transitionPath holding a presentstate and a nextstate
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      */
-    public <I, O> void transit(final StateMap<AutoState<I, O>> map, final TransitionListener transitionListener) {
-        transit(map.getPresentState().getInput(), transitionListener);
-        assignNextState(map.getNextState());
-        map.removePresentState();
+    public <I, O> void transit(final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener transitionListener) {
+        assignNextState(transitionPath.getNextState());
+        transit(transitionPath.getNextState().getInput(), transitionListener);
     }
 
     /**
-     * Transits to the next-state from a state-map with a latency period.
+     * Transits to the next-state from a state-transitionPath with a latency period.
      * 
      * @param <I> the state input type
      * @param <O> the state tracer object type
      * @param time the latency after which the transition starts
-     * @param map the system state-map holding a presentstate and a nextstate
+     * @param transitionPath the system state-transitionPath holding a presentstate and a nextstate
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws InterruptedException thrown if the application has interrupted the system during the latency period
      */
-    public <I, O> void transit(final long time, final StateMap<AutoState<I, O>> map, final TransitionListener transitionListener) throws InterruptedException {
-        transit(time, map.getPresentState().getInput(), transitionListener);
-        assignNextState(map.getNextState());
-        map.removePresentState();
+    public <I, O> void transit(final long time, final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener transitionListener) throws InterruptedException {
+        transit(time, transitionPath.getPresentState().getInput(), transitionListener);
+        assignNextState(transitionPath.getNextState());
+        transitionPath.removePresentState();
     }
 
     /**
@@ -111,13 +143,16 @@ public class TransitionalManager {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws NullPointerException thrown if a pointer to the next state is not found
      */
+    @SuppressWarnings("unchecked")
     public <I, O> void transit(final I input, final TransitionListener transitionListener) throws NullPointerException {
-        final AutoState<I, O> autostate = (AutoState<I, O>) transition.getNextState();
-        logger.log(Level.INFO, "Transitting into a new state " + autostate);
-        autostate.onStart();
-        autostate.invoke(input);
-        transitionListener.onTransition(autostate);
-        autostate.onFinish();
+        final AutoState<I, O> autoState = (AutoState<I, O>) transition.getNextState();
+        logger.log(Level.INFO, "Transiting into a new state " + autoState);
+        autoState.onStart();
+        autoState.invoke(input);
+        if (transitionListener != null) {
+            transitionListener.onTransition(autoState);
+        }
+        autoState.onFinish();
     }
 
     /**
