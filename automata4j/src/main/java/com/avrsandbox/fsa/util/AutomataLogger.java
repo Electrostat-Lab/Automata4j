@@ -52,28 +52,31 @@ public final class AutomataLogger {
     /**
      * Logs an event with a logging level and a message.
      *
+     * @param sourceClass the class source
+     * @param sourceMethod the dispatching method
      * @param level the logging level
      * @param msg a message to log
      */
-    public static void log(Level level, String msg) {
+    public static void log(Level level, String sourceClass, String sourceMethod, String msg) {
         if (!enabled) {
             return;
         }
-        logger.log(level, msg);
+        logger.logp(level, sourceClass, sourceMethod, msg);
     }
 
     /**
      * Logs a throwable event with a logging level and a message.
      *
+     * @param sourceClass the class source
+     * @param sourceMethod the dispatching method
      * @param level the logging level
-     * @param msg a message to log
      * @param throwable a throwable event
      */
-    public static void log(Level level, String msg, Throwable throwable) {
+    public static void log(Level level, String sourceClass, String sourceMethod, String msg, Throwable throwable) {
         if (!enabled) {
             return;
         }
-        logger.log(level, msg, throwable);
+        logger.logp(level, sourceClass, sourceMethod, msg, throwable);
     }
 
     /**
