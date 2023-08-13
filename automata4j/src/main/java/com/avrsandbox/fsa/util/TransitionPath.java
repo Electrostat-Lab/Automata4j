@@ -31,7 +31,7 @@
 
 package com.avrsandbox.fsa.util;
 
-import com.avrsandbox.fsa.core.TransitionalManager;
+import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
 
 /**
@@ -39,7 +39,7 @@ import com.avrsandbox.fsa.core.state.AutoState;
  *
  * @param <S> a type of {@link AutoState}
  * @author pavl_g
- * @see TransitionalManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
+ * @see DeterministicManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
  */
 @SuppressWarnings("rawtypes")
 public final class TransitionPath<S extends AutoState> {
@@ -49,17 +49,18 @@ public final class TransitionPath<S extends AutoState> {
     private S nextState;
 
     /**
-     * Instantiates a new state map with empty states
+     * Instantiates a new transition path with empty states.
      *
-     * @param name the map name (not null)
+     * @param name the transition path name (not null)
      */
     public TransitionPath(String name) {
         this(name, null, null);
     }
 
     /**
-     * Instantiates a new state map with a present-state and a next-state.
-     * 
+     * Instantiates a new transition path with a present-state and a next-state.
+     *
+     * @param name the transition path name (not null)
      * @param presentState a present-state to transit to
      * @param nextState a next-state to assign for the next transition
      */
@@ -70,7 +71,7 @@ public final class TransitionPath<S extends AutoState> {
     }
     
     /**
-     * Assigns the present state to this map object.
+     * Assigns the present state to this transition path object.
      * 
      * @param presentState the present state object
      */
@@ -79,7 +80,7 @@ public final class TransitionPath<S extends AutoState> {
     }
     
     /**
-     * Assigns the next state to this map object.
+     * Assigns the next state to this transition path object.
      * 
      * @param nextState the next state object
      */
