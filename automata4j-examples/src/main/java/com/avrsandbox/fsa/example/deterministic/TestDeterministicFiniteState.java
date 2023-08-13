@@ -34,6 +34,8 @@ package com.avrsandbox.fsa.example.deterministic;
 import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
+import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.util.AutomataLogger;
 import com.avrsandbox.fsa.util.TransitionPath;
 
 /**
@@ -44,6 +46,7 @@ import com.avrsandbox.fsa.util.TransitionPath;
  */
 public final class TestDeterministicFiniteState {
     public static void main(String[] args) {
+        AutomataLogger.setEnabled(true);
 
         final ArmatureState idleState = new ArmatureState();
         idleState.setInput("Idle");
@@ -57,9 +60,13 @@ public final class TestDeterministicFiniteState {
 
         final TransitionalManager transitionalManager = new DeterministicManager();
         /* repeat the transition path to assert the TransitionPathNotUniqueException */
-        transitionalManager.transit(transitionPath, null);
-
-        transitionalManager.transit(transitionPath, null);
+        transitionalManager.transit(transitionPath, new TransitionListener() {
+            @Override
+            public <I, O> void onTransition(AutoState<I, O> presentState) {
+                transitionalManager.transit(null);
+                transitionalManager.transit(transitionPath, null);
+            }
+        });
     }
 
     protected static final class ArmatureState implements AutoState<String, String> {
@@ -74,7 +81,7 @@ public final class TestDeterministicFiniteState {
 
         @Override
         public void invoke(String input) {
-            tracer = "Armature is " + input;
+            tracer = "Armature is " + this.input;
             System.out.println(tracer);
         }
 
