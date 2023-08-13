@@ -38,6 +38,7 @@ import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.CloneType;
 import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.util.AutomataLogger;
 
 /**
  * A tech-demo demonstrating a basic example of an antegrade finite-state-automaton design pattern.
@@ -70,7 +71,9 @@ public final class SerialAdder extends Thread implements TransitionListener {
      * Initializes the AutoStates and assigns the entry state.
      */
     public void init() {
-        
+        /* enables automata logger */
+        AutomataLogger.setEnabled(true);
+
         /* create bits to add */
         adders.add(new BitsAdder(0, 0));
         adders.add(new BitsAdder(0, 1));
