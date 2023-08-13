@@ -36,10 +36,12 @@ import com.avrsandbox.fsa.core.state.AutoState;
 
 /**
  * Provides a transition path composed of two states, a present-state and a next-state.
- * 
+ *
+ * @param <S> a type of {@link AutoState}
  * @author pavl_g
  * @see TransitionalManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
  */
+@SuppressWarnings("rawtypes")
 public final class TransitionPath<S extends AutoState> {
 
     private String name;
@@ -103,10 +105,25 @@ public final class TransitionPath<S extends AutoState> {
         return presentState;
     }
 
+    /**
+     * Sets the name of this transition path.
+     *
+     * <p>
+     * This attribute ensures uniqueness of the transition path in
+     * case of using the {@link com.avrsandbox.fsa.core.deterministic.DeterministicManager}.
+     * </p>
+     *
+     * @param name the new name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Retrieves the name of this transition path.
+     *
+     * @return the name of this transition path
+     */
     public String getName() {
         return name;
     }
