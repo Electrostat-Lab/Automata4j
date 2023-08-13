@@ -32,10 +32,11 @@
 package com.avrsandbox.fsa.core;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.lang.Thread;
 import com.avrsandbox.fsa.core.state.AutoState;
+import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.util.AutomataLogger;
 import com.avrsandbox.fsa.util.TransitionPath;
 
 /**
@@ -56,28 +57,35 @@ public class TransitionalManager {
     protected final Transition<AutoState<?, ?>> transition = new Transition<>();
 
     /**
-     * A general purpose logger for this manager object.
+     * Instantiates a transitional manager object.
      */
-    protected static final Logger logger = Logger.getLogger(TransitionalManager.class.getName());
-    
+    public TransitionalManager() {
+    }
+
     /**
      * Assigns a new next state.
+     *
+     * <p>
      * Warning: calling this multiple times on different objects
-     * will override the previous one !
-     * 
+     * will override the previous one!
+     * </p>
+     *
      * @param <I> the state input type
      * @param <O> the tracer object type
-     * @param autostate the target state
+     * @param autoState the target state
      */
-    public <I, O> void assignNextState(AutoState<I, O> autostate) { 
-        transition.setNextState(autostate);
-        logger.log(Level.INFO, "Assigned a new state " + autostate);
+    public <I, O> void assignNextState(AutoState<I, O> autoState) {
+        transition.setNextState(autoState);
+        AutomataLogger.log(Level.INFO, "Assigned a new state " + autoState);
     }
 
     /**
      * Assigns a new next state from a system transition.
+     *
+     * <p>
      * Warning: calling this multiple times on different objects
-     * will override the previous one !
+     * will override the previous one!
+     * </p>
      * 
      * @param <I> the state input type
      * @param <O> the tracer object type
@@ -88,15 +96,18 @@ public class TransitionalManager {
     }
     
     /**
-     * Transits to the next-state from a state-transitionPath.
+     * Traverses through a transition path starting from the present-state
+     * moving to the next-state.
      * 
      * @param <I> the state input type
      * @param <O> the state tracer object type
-     * @param transitionPath the system state-transitionPath holding a presentstate and a nextstate
+     * @param transitionPath the system state-transitionPath holding a present state and a next state
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      */
     public <I, O> void transit(final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener transitionListener) {
+        assignNextState(transitionPath.getPresentState());
+        transit(transitionPath.getPresentState().getInput(), transitionListener);
         assignNextState(transitionPath.getNextState());
         transit(transitionPath.getNextState().getInput(), transitionListener);
     }
@@ -107,7 +118,7 @@ public class TransitionalManager {
      * @param <I> the state input type
      * @param <O> the state tracer object type
      * @param time the latency after which the transition starts
-     * @param transitionPath the system state-transitionPath holding a presentstate and a nextstate
+     * @param transitionPath the system state-transitionPath holding a present state and a next state
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws InterruptedException thrown if the application has interrupted the system during the latency period
@@ -146,7 +157,7 @@ public class TransitionalManager {
     @SuppressWarnings("unchecked")
     public <I, O> void transit(final I input, final TransitionListener transitionListener) throws NullPointerException {
         final AutoState<I, O> autoState = (AutoState<I, O>) transition.getNextState();
-        logger.log(Level.INFO, "Transiting into a new state " + autoState);
+        AutomataLogger.log(Level.INFO, "Transiting into a new state " + autoState);
         autoState.onStart();
         autoState.invoke(input);
         if (transitionListener != null) {
