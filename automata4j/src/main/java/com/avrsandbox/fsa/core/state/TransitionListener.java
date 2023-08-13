@@ -44,7 +44,7 @@ import com.avrsandbox.fsa.core.TransitionalManager;
 public interface TransitionListener {
     
     /**
-     * Dispatched as a result of commiting a call to {@link TransitionalManager#transit(Object, TransitionListener)}.
+     * Dispatched as a result of committing a call to {@link TransitionalManager#transit(Object, TransitionListener)}.
      * 
      * Applications should decide how they want to transit to other states from here by selectively assigning them 
      * based on some system conditions, the API provides a carrier for these system conditions on the tracer object
