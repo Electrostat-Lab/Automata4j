@@ -33,14 +33,15 @@ package com.avrsandbox.fsa.core;
 
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
-import com.avrsandbox.fsa.core.state.TransitionListener;
 
 /**
  * Represents a machine system transition with one next-state {@link Transition#nextState}.
- * 
+ *
+ * @param <S> a type of {@link AutoState}
  * @author pavl_g
  */
-public final class Transition<S extends AutoState<?, ?>> {
+@SuppressWarnings("rawtypes")
+public final class Transition<S extends AutoState> {
     
     private S nextState;
 
@@ -61,11 +62,16 @@ public final class Transition<S extends AutoState<?, ?>> {
 
     /**
      * Assigns a next-state into your heap memory.
-     * Default value is (null).
+     * Default value is (not-null).
      * 
      * @param nextState the next-state object to assign
+     * @throws NextStateNotFoundException thrown if the next-state is null
      */
     public void setNextState(S nextState) {
+        /* a business exception if there is no next-state assigned */
+        if (nextState == null) {
+            throw new NextStateNotFoundException();
+        }
         this.nextState = nextState;
     }
 
@@ -73,14 +79,8 @@ public final class Transition<S extends AutoState<?, ?>> {
      * Loads the state from your heap into your stack memory.
      * 
      * @return the next state of the transition system
-     * @throws NextStateNotFoundException thrown if the {@link TransitionalManager#transit(Object, TransitionListener)}
-     * is called without assigning a next state
      */
     public S getNextState() throws NextStateNotFoundException {
-        /* a business exception if there is no next-state assigned */
-        if (nextState == null) {
-            throw new NextStateNotFoundException();
-        }
         return nextState;
     }
 
