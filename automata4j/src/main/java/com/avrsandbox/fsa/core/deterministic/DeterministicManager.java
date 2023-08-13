@@ -58,6 +58,13 @@ public class DeterministicManager extends TransitionalManager {
      */
     protected Map<String, TransitionPath> paths = new HashMap<>();
 
+    /**
+     * Instantiates a deterministic finite-state-automaton manager that
+     * defines a single a-successor path (unique transition paths).
+     */
+    public DeterministicManager() {
+    }
+
     @Override
     public <I, O> void transit(TransitionPath<AutoState<I, O>> transitionPath, TransitionListener transitionListener) {
         if (hasTransitionPath(transitionPath)) {
