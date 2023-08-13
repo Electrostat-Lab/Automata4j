@@ -49,6 +49,7 @@ import java.util.Map;
  *
  * @author pavl_g
  */
+@SuppressWarnings("rawtypes")
 public class DeterministicManager extends TransitionalManager {
 
     /**
