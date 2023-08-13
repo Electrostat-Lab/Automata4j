@@ -84,10 +84,11 @@ public class DeterministicManager extends TransitionalManager {
         if (transitionPath == null) {
             throw new IllegalArgumentException("Cannot accept null transition paths!");
         }
-        return paths.get(transitionPath.getName()) != null &&
-                (paths.get(transitionPath.getName()) == transitionPath ||
-                (paths.get(transitionPath.getName()).getPresentState().hashCode() == transitionPath.getPresentState().hashCode() &&
-                paths.get(transitionPath.getName()).getNextState().hashCode() == transitionPath.getNextState().hashCode() &&
-                paths.get(transitionPath.getName()).getNextState().getInput().hashCode() == transitionPath.getNextState().getInput().hashCode()));
+        TransitionPath transitionPath1 = paths.get(transitionPath.getName());
+        return transitionPath1 != null &&
+                (transitionPath1.hashCode() == transitionPath.hashCode() ||
+                        (transitionPath1.getPresentState().hashCode() == transitionPath.getPresentState().hashCode() &&
+                                transitionPath1.getNextState().hashCode() == transitionPath.getNextState().hashCode() &&
+                                transitionPath1.getNextState().getInput().hashCode() == transitionPath.getNextState().getInput().hashCode()));
     }
 }
