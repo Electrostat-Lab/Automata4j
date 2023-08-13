@@ -61,7 +61,8 @@ public final class SpaceCraftEngine extends Thread implements TransitionalListen
           if (presentState.getStateTracer().getX() > (initialPosition.getX() + 200f)) {
                /* Exits the system once traveling has been completed and docks the spacecraft */
                VehicleManager.getInstance().getSpaceCraft().dock(DockingSpeed.DEFAULT_SPEED);
-               Gui.getInstance().message(Message.Type.Alert, "Completed Travelling 200+ Miles, Docking the SpaceCraft");
+               Gui.getInstance().message(Message.Type.Alert,
+                                   "Completed Travelling 200+ Miles, Docking the SpaceCraft");
                return;
           }
           /* Continues assigning new states as long as the destination has not been met */
@@ -71,18 +72,25 @@ public final class SpaceCraftEngine extends Thread implements TransitionalListen
      
      protected void travel(SpaceCraftEngine.TravelDistance travelDistance) {
           transitionalManager.transit(travelDistance, this);
-          Gui.getInstance().message(Message.Type.Alert, "Travelling Now for " + travelDistance.getPulse() + " Miles");
+          Gui.getInstance().message(Message.Type.Alert, "Travelling Now for "
+                                   + travelDistance.getPulse() + " Miles");
      }
 
      protected static class MoveCommand implements AutoState<PulseCommand, LatLng> {
           private PulseCommand command;
-          
+
+          @Override
+          public void setInput(PulseCommand command) {
+               this.command = command;
+          }
+
           @Override
           public void invoke(PulseCommand command) {
                this.command = command;
                // Your system state goes here
                VehicleManager.getInstance().getSpaceCraft().force(command.getPulse(), 0);
-               Gui.getInstance().message(Message.Type.Info, "Added additional " + command.getPulse() + " Miles");
+               Gui.getInstance().message(Message.Type.Info, "Added additional "
+                                        + command.getPulse() + " Miles");
           }
           
           @Override
