@@ -34,6 +34,7 @@ package com.avrsandbox.fsa.core;
 import java.util.logging.Level;
 import java.lang.Thread;
 import com.avrsandbox.fsa.core.state.AutoState;
+import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 import com.avrsandbox.fsa.core.state.TransitionListener;
 import com.avrsandbox.fsa.util.AutomataLogger;
 import com.avrsandbox.fsa.util.TransitionPath;
@@ -75,7 +76,8 @@ public class TransitionalManager {
      */
     public <I, O> void assignNextState(AutoState<I, O> autoState) {
         transition.setNextState(autoState);
-        AutomataLogger.log(Level.INFO, "Assigned a new state " + autoState);
+        AutomataLogger.log(Level.INFO, TransitionalManager.class.getName(), "assignNextState(AutoState)",
+                        "Assigned a new state " + autoState);
     }
 
     /**
@@ -96,19 +98,32 @@ public class TransitionalManager {
     
     /**
      * Traverses through a transition path starting from the present-state
-     * moving to the next-state.
+     * assigning the next-state without transiting to it.
+     *
+     * <p>
+     * Tips: A call to {@link TransitionalManager#transit(TransitionListener)} can be submitted from the
+     * {@link TransitionListener#onTransition(AutoState)} to transit to the assigned next-state.
+     * </p>
      * 
      * @param <I> the state input type
      * @param <O> the state tracer object type
      * @param transitionPath the system state-transitionPath holding a present state and a next state
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
-     *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
+     *                           after the {@link AutoState#invoke(Object)} is invoked when the transition to the present-state completes
      */
     public <I, O> void transit(final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener transitionListener) {
         assignNextState(transitionPath.getPresentState());
-        transit(transitionPath.getPresentState().getInput(), transitionListener);
-        assignNextState(transitionPath.getNextState());
-        transit(transitionPath.getNextState().getInput(), transitionListener);
+        transit(transitionPath.getPresentState().getInput(), new TransitionListener() {
+            @Override
+            @SuppressWarnings("all")
+            public <I, O> void onTransition(AutoState<I, O> presentState) {
+                assignNextState(transitionPath.getNextState());
+                /* incremental dispatch */
+                if (transitionListener != null) {
+                    transitionListener.onTransition(presentState);
+                }
+            }
+        });
     }
 
     /**
@@ -151,18 +166,33 @@ public class TransitionalManager {
      * @param input the state input
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
-     * @throws NullPointerException thrown if a pointer to the next state is not found
+     * @throws NextStateNotFoundException thrown if a pointer to the next state is not found
      */
     @SuppressWarnings("unchecked")
-    public <I, O> void transit(final I input, final TransitionListener transitionListener) throws NullPointerException {
+    public <I, O> void transit(final I input, final TransitionListener transitionListener) throws NextStateNotFoundException {
         final AutoState<I, O> autoState = (AutoState<I, O>) transition.getNextState();
-        AutomataLogger.log(Level.INFO, "Transiting into a new state " + autoState);
+        AutomataLogger.log(Level.INFO, TransitionalManager.class.getName(),
+                    "transit(Input, TransitionalListener)", "Transiting into a new state " + autoState);
+        autoState.setInput(input);
         autoState.onStart();
         autoState.invoke(input);
         if (transitionListener != null) {
             transitionListener.onTransition(autoState);
         }
         autoState.onFinish();
+    }
+
+    /**
+     * Transits to the next assigned state with the predefined input value.
+     *
+     * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)}
+     *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
+     * @param <I> the state input type
+     * @param <O> the tracer object type
+     * @throws NextStateNotFoundException thrown if a pointer to the next state is not found
+     */
+    public <I, O> void transit(final TransitionListener transitionListener) {
+        transit(transition.getNextState().getInput(), transitionListener);
     }
 
     /**
