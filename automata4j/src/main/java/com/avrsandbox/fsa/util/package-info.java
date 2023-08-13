@@ -30,6 +30,6 @@
  */
 
 /**
- * Provides utilities for the framework.
+ * Provides general-purpose utilities for the framework.
  */
 package com.avrsandbox.fsa.util;
