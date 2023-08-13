@@ -34,7 +34,6 @@ package com.avrsandbox.fsa.core;
 import java.util.logging.Level;
 import java.lang.Thread;
 import com.avrsandbox.fsa.core.state.AutoState;
-import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 import com.avrsandbox.fsa.core.state.TransitionListener;
 import com.avrsandbox.fsa.util.AutomataLogger;
 import com.avrsandbox.fsa.util.TransitionPath;
