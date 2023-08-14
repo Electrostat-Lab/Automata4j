@@ -34,7 +34,6 @@ package com.avrsandbox.fsa.example.deterministic;
 import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
-import com.avrsandbox.fsa.core.state.TransitionListener;
 import com.avrsandbox.fsa.util.AutomataLogger;
 import com.avrsandbox.fsa.util.TransitionPath;
 
@@ -58,14 +57,11 @@ public final class TestDeterministicFiniteState {
         transitionPath.assignPresentState(idleState);
         transitionPath.assignNextState(walkingState);
 
-        final TransitionalManager transitionalManager = new DeterministicManager();
+        final TransitionalManager<String, String> transitionalManager = new DeterministicManager<>();
         /* repeat the transition path to assert the TransitionPathNotUniqueException */
-        transitionalManager.transit(transitionPath, new TransitionListener() {
-            @Override
-            public <I, O> void onTransition(AutoState<I, O> presentState) {
-                transitionalManager.transit(null);
-                transitionalManager.transit(transitionPath, null);
-            }
+        transitionalManager.transit(transitionPath, presentState -> {
+            transitionalManager.transit(null);
+            transitionalManager.transit(transitionPath, null);
         });
     }
 
