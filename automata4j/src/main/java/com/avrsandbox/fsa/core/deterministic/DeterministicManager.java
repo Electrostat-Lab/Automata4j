@@ -49,14 +49,13 @@ import java.util.Map;
  *
  * @author pavl_g
  */
-@SuppressWarnings("rawtypes")
-public class DeterministicManager extends TransitionalManager {
+public class DeterministicManager<I, O> extends TransitionalManager<I, O> {
 
     /**
      * Keeps track of the previous assigned paths to ensure new transition
      * paths are unique.
      */
-    protected Map<String, TransitionPath> paths = new HashMap<>();
+    protected Map<String, TransitionPath<AutoState<I, O>>> paths = new HashMap<>();
 
     /**
      * Instantiates a deterministic finite-state-automaton manager that
@@ -66,7 +65,7 @@ public class DeterministicManager extends TransitionalManager {
     }
 
     @Override
-    public <I, O> void transit(TransitionPath<AutoState<I, O>> transitionPath, TransitionListener transitionListener) {
+    public void transit(TransitionPath<AutoState<I, O>> transitionPath, TransitionListener<I, O> transitionListener) {
         if (hasTransitionPath(transitionPath)) {
             throw new TransitionPathNotUniqueException(transitionPath.getName());
         }
@@ -83,15 +82,13 @@ public class DeterministicManager extends TransitionalManager {
      * </p>
      *
      * @param transitionPath the transition path object to test against
-     * @param <I> the autoStates input type
-     * @param <O> the autoStates output type
      * @return true if this path is not unique, false otherwise
      */
-    protected <I, O> boolean hasTransitionPath(TransitionPath<AutoState<I, O>> transitionPath) {
+    protected boolean hasTransitionPath(TransitionPath<AutoState<I, O>> transitionPath) {
         if (transitionPath == null) {
             throw new IllegalArgumentException("Cannot accept null transition paths!");
         }
-        TransitionPath transitionPath1 = paths.get(transitionPath.getName());
+        TransitionPath<AutoState<I, O>> transitionPath1 = paths.get(transitionPath.getName());
         return transitionPath1 != null &&
                 (transitionPath1.hashCode() == transitionPath.hashCode() ||
                         (transitionPath1.getPresentState().hashCode() == transitionPath.getPresentState().hashCode() &&
