@@ -54,9 +54,9 @@ import com.avrsandbox.fsa.util.AutomataLogger;
  * 
  * @author pavl_g.
  */
-public final class SerialAdder extends Thread implements TransitionListener {
+public final class SerialAdder extends Thread implements TransitionListener<BitsAdder, Integer> {
 
-    private final TransitionalManager transitionalManager = new TransitionalManager();
+    private final TransitionalManager<BitsAdder, Integer> transitionalManager = new TransitionalManager<>();
     private final List<BitsAdder> adders = new ArrayList<>();
     private final List<AutoState<BitsAdder, Integer>> states = new ArrayList<>();
 
@@ -117,18 +117,6 @@ public final class SerialAdder extends Thread implements TransitionListener {
         Logger.getLogger(getName()).info("Finite state finishes !");
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <I, O> void onTransition(AutoState<I, O> presentState) {
-        /* assigns the state on transition */
-        final AutoState<BitsAdder, Integer> autoState = (AutoState<BitsAdder, Integer>) presentState;
-        if (!hasNextCarryState(autoState)) {
-            transitionalManager.assignNextState(states.get(0));
-        } else {
-            transitionalManager.assignNextState(states.get(1));
-        }
-    }
-
     /**
      * Tests whether the current state has a next {@link CarryState}.
      * 
@@ -137,5 +125,15 @@ public final class SerialAdder extends Thread implements TransitionListener {
      */
     private boolean hasNextCarryState(AutoState<BitsAdder, Integer> state) {
         return state.getStateTracer() == 1;
+    }
+
+    @Override
+    public void onTransition(AutoState<BitsAdder, Integer> presentState) {
+        /* assigns the state on transition */
+        if (!hasNextCarryState(presentState)) {
+            transitionalManager.assignNextState(states.get(0));
+        } else {
+            transitionalManager.assignNextState(states.get(1));
+        }
     }
 }
