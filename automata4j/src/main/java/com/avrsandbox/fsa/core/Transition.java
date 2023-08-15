@@ -42,7 +42,10 @@ import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
  * @author pavl_g
  */
 public class Transition<I, O> {
-    
+
+    /**
+     * The state of the transition.
+     */
     protected AutoState<I, O> nextState;
 
     /**
