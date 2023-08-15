@@ -43,7 +43,7 @@ import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
  */
 public class Transition<I, O> {
     
-    private AutoState<I, O> nextState;
+    protected AutoState<I, O> nextState;
 
     /**
      * Instantiates a transition with an empty next-state.
@@ -67,7 +67,7 @@ public class Transition<I, O> {
      * @param nextState the next-state object to assign
      * @throws NextStateNotFoundException thrown if the next-state is null
      */
-    public void setNextState(AutoState<I, O> nextState) {
+    public void assignNextState(AutoState<I, O> nextState) {
         /* a business exception if there is no next-state assigned */
         if (nextState == null) {
             throw new NextStateNotFoundException();

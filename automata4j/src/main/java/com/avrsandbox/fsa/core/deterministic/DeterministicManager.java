@@ -33,7 +33,7 @@ package com.avrsandbox.fsa.core.deterministic;
 
 import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.state.TransitionListener;
-import com.avrsandbox.fsa.util.TransitionPath;
+import com.avrsandbox.fsa.core.TransitionPath;
 import java.util.HashMap;
 import java.util.Map;
 

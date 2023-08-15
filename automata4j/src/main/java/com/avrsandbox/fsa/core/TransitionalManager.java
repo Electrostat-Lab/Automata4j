@@ -37,7 +37,6 @@ import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 import com.avrsandbox.fsa.core.state.TransitionListener;
 import com.avrsandbox.fsa.util.AutomataLogger;
-import com.avrsandbox.fsa.util.TransitionPath;
 
 /**
  * Represents the core component that drives and controls the flow of the Finite-State pattern by selectively assigning a new state,
@@ -75,7 +74,7 @@ public class TransitionalManager<I, O> {
      * @param autoState the target state
      */
     public void assignNextState(AutoState<I, O> autoState) {
-        transition.setNextState(autoState);
+        transition.assignNextState(autoState);
         AutomataLogger.log(Level.INFO, TransitionalManager.class.getName(), "assignNextState(AutoState)",
                         "Assigned a new state " + autoState);
     }

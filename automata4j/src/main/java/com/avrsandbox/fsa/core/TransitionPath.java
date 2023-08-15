@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.util;
+package com.avrsandbox.fsa.core;
 
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
@@ -42,11 +42,22 @@ import com.avrsandbox.fsa.core.state.AutoState;
  * @author pavl_g
  * @see DeterministicManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
  */
-public class TransitionPath<I, O> {
+public class TransitionPath<I, O> extends Transition<I, O> {
 
-    private String name;
-    private AutoState<I, O> presentState;
-    private AutoState<I, O> nextState;
+    /**
+     * The name of this path.
+     */
+    protected String name;
+
+    /**
+     * The starting auto state.
+     */
+    protected AutoState<I, O> presentState;
+
+    /**
+     * The next state (accepting/terminating) in this path.
+     */
+    protected AutoState<I, O> nextState;
 
     /**
      * Instantiates a new transition path with empty states.
@@ -65,9 +76,9 @@ public class TransitionPath<I, O> {
      * @param nextState a next-state to assign for the next transition
      */
     public TransitionPath(String name, AutoState<I, O> presentState, AutoState<I, O> nextState) {
+        super(nextState);
         this.name = name;
         this.presentState = presentState;
-        this.nextState = nextState;
     }
     
     /**
@@ -77,24 +88,6 @@ public class TransitionPath<I, O> {
      */
     public void assignPresentState(AutoState<I, O> presentState) {
         this.presentState = presentState;
-    }
-    
-    /**
-     * Assigns the next state to this transition path object.
-     * 
-     * @param nextState the next state object
-     */
-    public void assignNextState(AutoState<I, O> nextState) {
-        this.nextState = nextState;
-    }
-    
-    /**
-     * Retains the next-state object from the heap memory.
-     * 
-     * @return the next-state object
-     */
-    public AutoState<I, O> getNextState() {
-        return nextState;
     }
 
     /**
@@ -149,5 +142,13 @@ public class TransitionPath<I, O> {
     public void removeAll() {
         removePresentState();
         removeNextState();
+    }
+
+    /**
+     * @deprecated use {@link TransitionPath#removeNextState()}.
+     */
+    @Override
+    @Deprecated
+    public void remove() {
     }
 }
