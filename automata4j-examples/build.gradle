@@ -11,11 +11,20 @@ plugins {
 }
 
 application {
-    mainClass = 'com.avrsandbox.fsa.example.Launcher'
+    mainClass.set("com.avrsandbox.fsa.example.simple.ndfsa.SerialAdder")
+}
+
+/** Runs the [SerialAdder] class only, to use type: └──╼ $./gradlew :automata4j-examples:SerialAdder :automata4j-examples:run */
+tasks.register("SerialAdder") {
+    application.mainClass.set("com.avrsandbox.fsa.example.simple.ndfsa.SerialAdder")
+}
+
+/** Runs the [TestDeterministicFiniteState] class only, to use type: └──╼ $./gradlew :automata4j-examples:TestDeterministicFiniteState :automata4j-examples:run */
+tasks.register("TestDeterministicFiniteState") {
+    application.mainClass.set("com.avrsandbox.fsa.example.simple.dfsa.TestDeterministicFiniteState")
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
