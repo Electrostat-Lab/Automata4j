@@ -35,7 +35,7 @@ import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.util.AutomataLogger;
-import com.avrsandbox.fsa.util.TransitionPath;
+import com.avrsandbox.fsa.core.TransitionPath;
 
 /**
  * Tests the Deterministic Finite-State-Automaton Pattern through using {@link DeterministicManager}
@@ -52,7 +52,7 @@ public final class TestDeterministicFiniteState {
         final ArmatureState walkingState = new ArmatureState();
         walkingState.setInput("Walking");
 
-        final TransitionPath<AutoState<String, String>> transitionPath =
+        final TransitionPath<String, String> transitionPath =
                                             new TransitionPath<>("Armature-Mover-Map");
         transitionPath.assignPresentState(idleState);
         transitionPath.assignNextState(walkingState);
