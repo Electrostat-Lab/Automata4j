@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.example.deterministic;
+package com.avrsandbox.fsa.example.simple.dfsa;
 
 import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;

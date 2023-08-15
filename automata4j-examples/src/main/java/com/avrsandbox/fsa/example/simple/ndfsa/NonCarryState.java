@@ -29,7 +29,61 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package com.avrsandbox.fsa.example.simple.ndfsa;
+
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import com.avrsandbox.fsa.core.state.AutoState;
+
 /**
- * Holds an example for the Finite-States-Automaton design pattern.
+ * A non-carry adder state.
+ *
+ * @author pavl_g
  */
-package com.avrsandbox.fsa.example;
+public final class NonCarryState implements AutoState<BitsAdder, Integer> {
+    
+    private BitsAdder adder;
+    private Integer carry = 0;
+    private final Logger LOGGER = Logger.getLogger(CarryState.class.getName());
+    
+    @Override
+    public void invoke(BitsAdder adder) {
+        this.adder = adder;
+        adder.output = adder.add();
+
+        if (adder.output == 2) {
+            // output = 0 and carry = 1
+            adder.output = 0;
+            carry = 1;
+        }/* else, carry = 0 and output = 1 :-) */
+        
+        LOGGER.log(Level.INFO, "Present-State = NonCarryState ; " + "X1/X2 = Z"  + " ; " + adder.input0 + "/" + adder.input1 + " = " + adder.output);
+    }
+
+    @Override
+    public BitsAdder getInput() {
+        return this.adder;
+    }
+
+    @Override
+    public void setInput(BitsAdder input) {
+        this.adder = input;
+    }
+
+    @Override
+    public Integer getStateTracer() {
+        return carry;
+    }
+    
+    @Override
+    public void onStart() {
+        
+    }
+
+    @Override
+    public void onFinish() {
+        // reset values and/or release resources
+        carry = 0;
+        this.adder = null;
+    }
+}

@@ -29,17 +29,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.example;
-
 /**
- * Application entry point.
- * 
- * @auhor pavl_g.
+ * Provides a simple example to the DFSA using the
+ * {@link com.avrsandbox.fsa.core.deterministic.DeterministicManager}.
  */
-public final class Launcher {
-    public static void main(String[] args) {
-        final SerialAdder finiteStateAutomataTest = new SerialAdder();
-        finiteStateAutomataTest.init();
-        finiteStateAutomataTest.start();
-    }
-}
+package com.avrsandbox.fsa.example.simple.dfsa;

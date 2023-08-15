@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.example;
+package com.avrsandbox.fsa.example.simple.ndfsa;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
