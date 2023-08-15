@@ -33,7 +33,6 @@ package com.avrsandbox.fsa.core;
 
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.TransitionListener;
-import com.avrsandbox.fsa.util.TransitionPath;
 
 /**
  * Assigns a next state {@link AutoState} when the
