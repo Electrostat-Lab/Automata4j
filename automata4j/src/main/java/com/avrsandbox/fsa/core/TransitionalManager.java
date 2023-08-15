@@ -122,9 +122,8 @@ public class TransitionalManager<I, O> {
      * @throws InterruptedException thrown if the application has interrupted the system during the latency period
      */
     public void transit(long time, TransitionPath<I, O> transitionPath, TransitionListener<I, O> transitionListener) throws InterruptedException {
-        transit(time, transitionPath.getPresentState().getInput(), transitionListener);
-        assignNextState(transitionPath.getNextState());
-        transitionPath.removePresentState();
+        Thread.sleep(time);
+        transit(transitionPath, transitionListener);
     }
 
     /**
