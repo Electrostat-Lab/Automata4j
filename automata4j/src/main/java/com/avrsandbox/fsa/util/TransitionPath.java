@@ -37,16 +37,16 @@ import com.avrsandbox.fsa.core.state.AutoState;
 /**
  * Provides a transition path composed of two states, a present-state and a next-state.
  *
- * @param <S> a type of {@link AutoState}
+ * @param <I> a class-generic representing the input value type
+ * @param <O> a class-generic representing the tracer object (output) value type
  * @author pavl_g
  * @see DeterministicManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
  */
-@SuppressWarnings("rawtypes")
-public final class TransitionPath<S extends AutoState> {
+public class TransitionPath<I, O> {
 
     private String name;
-    private S presentState;
-    private S nextState;
+    private AutoState<I, O> presentState;
+    private AutoState<I, O> nextState;
 
     /**
      * Instantiates a new transition path with empty states.
@@ -64,7 +64,7 @@ public final class TransitionPath<S extends AutoState> {
      * @param presentState a present-state to transit to
      * @param nextState a next-state to assign for the next transition
      */
-    public TransitionPath(String name, S presentState, S nextState) {
+    public TransitionPath(String name, AutoState<I, O> presentState, AutoState<I, O> nextState) {
         this.name = name;
         this.presentState = presentState;
         this.nextState = nextState;
@@ -75,7 +75,7 @@ public final class TransitionPath<S extends AutoState> {
      * 
      * @param presentState the present state object
      */
-    public void assignPresentState(S presentState) {
+    public void assignPresentState(AutoState<I, O> presentState) {
         this.presentState = presentState;
     }
     
@@ -84,7 +84,7 @@ public final class TransitionPath<S extends AutoState> {
      * 
      * @param nextState the next state object
      */
-    public void assignNextState(S nextState) {
+    public void assignNextState(AutoState<I, O> nextState) {
         this.nextState = nextState;
     }
     
@@ -93,7 +93,7 @@ public final class TransitionPath<S extends AutoState> {
      * 
      * @return the next-state object
      */
-    public S getNextState() {
+    public AutoState<I, O> getNextState() {
         return nextState;
     }
 
@@ -102,7 +102,7 @@ public final class TransitionPath<S extends AutoState> {
      * 
      * @return the present-state object
      */
-    public S getPresentState() {
+    public AutoState<I, O> getPresentState() {
         return presentState;
     }
 

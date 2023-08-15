@@ -46,11 +46,11 @@ import com.avrsandbox.fsa.util.TransitionPath;
 class NextStateAssigner<I, O> implements TransitionListener<I, O> {
 
     private final TransitionalManager<I, O> transitionalManager;
-    private final TransitionPath<AutoState<I, O>> transitionPath;
+    private final TransitionPath<I, O> transitionPath;
     private final TransitionListener<I, O> delegator;
 
     public NextStateAssigner(TransitionalManager<I, O> transitionalManager,
-                             TransitionPath<AutoState<I, O>> transitionPath,
+                             TransitionPath<I, O> transitionPath,
                              TransitionListener<I, O> delegator) {
         this.transitionalManager = transitionalManager;
         this.transitionPath = transitionPath;
