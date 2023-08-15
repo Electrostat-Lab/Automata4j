@@ -46,6 +46,8 @@ import java.util.Map;
  * recommended, is through changing the name of the transition path before reusing it.
  * </p>
  *
+ * @param <I> the state input type
+ * @param <O> the tracer object type
  * @author pavl_g
  */
 public class DeterministicManager<I, O> extends TransitionalManager<I, O> {
