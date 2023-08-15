@@ -66,6 +66,15 @@ public final class SerialAdder extends Thread implements TransitionListener<Bits
     public SerialAdder() {
         super("SerialAdder-Finite-State-Automaton");
     }
+
+    /**
+     * Application entry point.
+     */
+    public static void main(String[] args) {
+        final SerialAdder finiteStateAutomataTest = new SerialAdder();
+        finiteStateAutomataTest.init();
+        finiteStateAutomataTest.start();
+    }
     
     /**
      * Initializes the AutoStates and assigns the entry state.
