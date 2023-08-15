@@ -6,6 +6,8 @@ build
 
 bin
 
+.idea
+
 .vscode
 
 apache-maven-3.9.3
