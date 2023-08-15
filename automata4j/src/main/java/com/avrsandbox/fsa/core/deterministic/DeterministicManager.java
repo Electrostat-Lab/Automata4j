@@ -32,7 +32,6 @@
 package com.avrsandbox.fsa.core.deterministic;
 
 import com.avrsandbox.fsa.core.TransitionalManager;
-import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.TransitionListener;
 import com.avrsandbox.fsa.util.TransitionPath;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class DeterministicManager<I, O> extends TransitionalManager<I, O> {
      * Keeps track of the previous assigned paths to ensure new transition
      * paths are unique.
      */
-    protected Map<String, TransitionPath<AutoState<I, O>>> paths = new HashMap<>();
+    protected Map<String, TransitionPath<I, O>> paths = new HashMap<>();
 
     /**
      * Instantiates a deterministic finite-state-automaton manager that
@@ -65,7 +64,7 @@ public class DeterministicManager<I, O> extends TransitionalManager<I, O> {
     }
 
     @Override
-    public void transit(TransitionPath<AutoState<I, O>> transitionPath, TransitionListener<I, O> transitionListener) {
+    public void transit(TransitionPath<I, O> transitionPath, TransitionListener<I, O> transitionListener) {
         if (hasTransitionPath(transitionPath)) {
             throw new TransitionPathNotUniqueException(transitionPath.getName());
         }
@@ -84,11 +83,11 @@ public class DeterministicManager<I, O> extends TransitionalManager<I, O> {
      * @param transitionPath the transition path object to test against
      * @return true if this path is not unique, false otherwise
      */
-    protected boolean hasTransitionPath(TransitionPath<AutoState<I, O>> transitionPath) {
+    protected boolean hasTransitionPath(TransitionPath<I, O> transitionPath) {
         if (transitionPath == null) {
             throw new IllegalArgumentException("Cannot accept null transition paths!");
         }
-        TransitionPath<AutoState<I, O>> transitionPath1 = paths.get(transitionPath.getName());
+        TransitionPath<I, O> transitionPath1 = paths.get(transitionPath.getName());
         return transitionPath1 != null &&
                 (transitionPath1.hashCode() == transitionPath.hashCode() ||
                         (transitionPath1.getPresentState().hashCode() == transitionPath.getPresentState().hashCode() &&

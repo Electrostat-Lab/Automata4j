@@ -37,13 +37,13 @@ import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 /**
  * Represents a machine system transition with one next-state {@link Transition#nextState}.
  *
- * @param <S> a type of {@link AutoState}
+ * @param <I> a class-generic representing the input value type
+ * @param <O> a class-generic representing the tracer object (output) value type
  * @author pavl_g
  */
-@SuppressWarnings("rawtypes")
-public final class Transition<S extends AutoState> {
+public class Transition<I, O> {
     
-    private S nextState;
+    private AutoState<I, O> nextState;
 
     /**
      * Instantiates a transition with an empty next-state.
@@ -56,7 +56,7 @@ public final class Transition<S extends AutoState> {
      * 
      * @param nextState the next-state object to assign
      */
-    public Transition(S nextState) {
+    public Transition(AutoState<I, O> nextState) {
         this.nextState = nextState;
     }
 
@@ -67,7 +67,7 @@ public final class Transition<S extends AutoState> {
      * @param nextState the next-state object to assign
      * @throws NextStateNotFoundException thrown if the next-state is null
      */
-    public void setNextState(S nextState) {
+    public void setNextState(AutoState<I, O> nextState) {
         /* a business exception if there is no next-state assigned */
         if (nextState == null) {
             throw new NextStateNotFoundException();
@@ -80,7 +80,7 @@ public final class Transition<S extends AutoState> {
      * 
      * @return the next state of the transition system
      */
-    public S getNextState() throws NextStateNotFoundException {
+    public AutoState<I, O> getNextState() throws NextStateNotFoundException {
         return nextState;
     }
 

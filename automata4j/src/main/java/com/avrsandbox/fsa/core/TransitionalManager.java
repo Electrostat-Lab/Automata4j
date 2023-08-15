@@ -56,7 +56,7 @@ public class TransitionalManager<I, O> {
     /**
      * The system transition. 
      */
-    protected final Transition<AutoState<I, O>> transition = new Transition<>();
+    protected final Transition<I, O> transition = new Transition<>();
 
     /**
      * Instantiates a transitional manager object.
@@ -90,7 +90,7 @@ public class TransitionalManager<I, O> {
      *
      * @param transition the target transition
      */
-    public void assignNextState(final Transition<AutoState<I, O>> transition) {
+    public void assignNextState(Transition<I, O> transition) {
         assignNextState(transition.getNextState());
     }
     
@@ -107,7 +107,7 @@ public class TransitionalManager<I, O> {
      * @param transitionListener an event driven interface object that fires {@link TransitionListener#onTransition(AutoState)} 
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition to the present-state completes
      */
-    public void transit(final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener<I, O> transitionListener) {
+    public void transit(TransitionPath<I, O> transitionPath, TransitionListener<I, O> transitionListener) {
         assignNextState(transitionPath.getPresentState());
         transit(transitionPath.getPresentState().getInput(),
                             new NextStateAssigner<>(this, transitionPath, transitionListener));
@@ -122,7 +122,7 @@ public class TransitionalManager<I, O> {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws InterruptedException thrown if the application has interrupted the system during the latency period
      */
-    public void transit(final long time, final TransitionPath<AutoState<I, O>> transitionPath, final TransitionListener<I, O> transitionListener) throws InterruptedException {
+    public void transit(long time, TransitionPath<I, O> transitionPath, TransitionListener<I, O> transitionListener) throws InterruptedException {
         transit(time, transitionPath.getPresentState().getInput(), transitionListener);
         assignNextState(transitionPath.getNextState());
         transitionPath.removePresentState();
@@ -137,7 +137,7 @@ public class TransitionalManager<I, O> {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws InterruptedException thrown if the application has interrupted the system during the latency period
      */
-    public void transit(final long time, final I input, final TransitionListener<I, O> transitionListener) throws InterruptedException {
+    public void transit(long time, I input, TransitionListener<I, O> transitionListener) throws InterruptedException {
         Thread.sleep(time);
         transit(input, transitionListener);
     }
@@ -150,7 +150,7 @@ public class TransitionalManager<I, O> {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws NextStateNotFoundException thrown if a pointer to the next state is not found
      */
-    public void transit(final I input, final TransitionListener<I, O> transitionListener) throws NextStateNotFoundException {
+    public void transit(I input, TransitionListener<I, O> transitionListener) throws NextStateNotFoundException {
         final AutoState<I, O> autoState = transition.getNextState();
         AutomataLogger.log(Level.INFO, TransitionalManager.class.getName(),
                     "transit(Input, TransitionalListener)", "Transiting into a new state " + autoState);
@@ -170,7 +170,7 @@ public class TransitionalManager<I, O> {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition completes
      * @throws NextStateNotFoundException thrown if a pointer to the next state is not found
      */
-    public void transit(final TransitionListener<I, O> transitionListener) {
+    public void transit(TransitionListener<I, O> transitionListener) {
         transit(transition.getNextState().getInput(), transitionListener);
     }
 
@@ -179,7 +179,7 @@ public class TransitionalManager<I, O> {
      * 
      * @return the transition object holding the next-state (if assigned)
      */
-    public Transition<AutoState<I, O>> getTransition() {
+    public Transition<I, O> getTransition() {
         return transition;
     }
 
