@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.core;
+package com.avrsandbox.fsa.core.transition;
 
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
@@ -40,6 +40,7 @@ import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
  * @param <I> a class-generic representing the input value type
  * @param <O> a class-generic representing the tracer object (output) value type
  * @author pavl_g
+ * @see TransitionPath for a more convoluted way of defining machine transitions
  */
 public class Transition<I, O> {
 
@@ -76,6 +77,15 @@ public class Transition<I, O> {
             throw new NextStateNotFoundException();
         }
         this.nextState = nextState;
+    }
+
+    /**
+     * Tests whether a next state has been assigned.
+     *
+     * @return true if there is an assigned next state, false otherwise (if null)
+     */
+    public boolean hasNextState() {
+        return nextState != null;
     }
 
     /**

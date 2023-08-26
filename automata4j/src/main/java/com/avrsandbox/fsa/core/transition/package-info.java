@@ -29,26 +29,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.core.deterministic;
-
-import com.avrsandbox.fsa.core.state.TransitionListener;
-import com.avrsandbox.fsa.core.transition.TransitionPath;
-
 /**
- * Thrown by {@link DeterministicManager#transit(TransitionPath, TransitionListener)}, if the
- * {@link TransitionPath} assigned has been used by the system before.
+ * Houses reusable code for different types of finite-states transitions.
  *
- * @author pavl_g
+ * @see com.avrsandbox.fsa.core.transition.Transition for the basic state machines transitions consisting of a singly next state.
+ * @see com.avrsandbox.fsa.core.transition.TransitionPath for defining a full state machine path with the added benefit of a present state.
+ * @see com.avrsandbox.fsa.core.transition.CascadedTransition for providing a more convoluted way of cascading auto-states in a queue data structure.
+ * @see com.avrsandbox.fsa.core.transition.ConcurrentCascadedTransition for a thread-safe implementation of the CascadedTransitionPath.
  */
-public class TransitionPathNotUniqueException extends RuntimeException {
-
-    /**
-     * Instantiates an exception object to determine that a transition path
-     * object has been used before.
-     *
-     * @param transitionPathName the name of the registered transition path
-     */
-    public TransitionPathNotUniqueException(String transitionPathName) {
-        super("Transition path `" + transitionPathName + "` is not unique!");
-    }
-}
+package com.avrsandbox.fsa.core.transition;
