@@ -29,10 +29,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.core;
+package com.avrsandbox.fsa.core.state;
 
-import com.avrsandbox.fsa.core.state.AutoState;
-import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.transition.TransitionPath;
 
 /**
