@@ -34,8 +34,11 @@ package com.avrsandbox.fsa.core;
 import java.util.logging.Level;
 import java.lang.Thread;
 import com.avrsandbox.fsa.core.state.AutoState;
+import com.avrsandbox.fsa.core.state.NextStateAssigner;
 import com.avrsandbox.fsa.core.state.NextStateNotFoundException;
 import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.core.transition.Transition;
+import com.avrsandbox.fsa.core.transition.TransitionPath;
 import com.avrsandbox.fsa.util.AutomataLogger;
 
 /**
@@ -107,8 +110,9 @@ public class TransitionalManager<I, O> {
      *                           after the {@link AutoState#invoke(Object)} is invoked when the transition to the present-state completes
      */
     public void transit(TransitionPath<I, O> transitionPath, TransitionListener<I, O> transitionListener) {
-        assignNextState(transitionPath.getPresentState());
-        transit(transitionPath.getPresentState().getInput(),
+        final AutoState<I, O> presentState = transitionPath.getPresentState();
+        assignNextState(presentState);
+        transit(presentState.getInput(),
                             new NextStateAssigner<>(this, transitionPath, transitionListener));
     }
 
