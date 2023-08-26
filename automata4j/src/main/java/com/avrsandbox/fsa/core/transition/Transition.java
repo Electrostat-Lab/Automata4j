@@ -70,7 +70,7 @@ public class Transition<I, O> {
      * @param nextState the next-state object to assign
      * @throws NextStateNotFoundException thrown if the next-state is null
      */
-    public void assignNextState(AutoState<I, O> nextState) {
+    public void assignNextState(AutoState<I, O> nextState) throws NextStateNotFoundException {
         /* a business exception if there is no next-state assigned */
         if (nextState == null) {
             throw new NextStateNotFoundException();
@@ -83,7 +83,7 @@ public class Transition<I, O> {
      * 
      * @return the next state of the transition system
      */
-    public AutoState<I, O> getNextState() throws NextStateNotFoundException {
+    public AutoState<I, O> getNextState() {
         return nextState;
     }
 

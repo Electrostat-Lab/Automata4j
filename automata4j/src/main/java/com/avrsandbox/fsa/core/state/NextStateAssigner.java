@@ -33,21 +33,41 @@ package com.avrsandbox.fsa.core;
 
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.core.state.TransitionListener;
+import com.avrsandbox.fsa.core.transition.TransitionPath;
 
 /**
  * Assigns a next state {@link AutoState} when the
- * transition from a present state from a transition path finishes.
+ * transition from a present state of a transition path finishes.
  *
  * @param <I> the input type
  * @param <O> the tracer object (output) type
  * @author pavl_g
  */
-class NextStateAssigner<I, O> implements TransitionListener<I, O> {
+public class NextStateAssigner<I, O> implements TransitionListener<I, O> {
 
-    private final TransitionalManager<I, O> transitionalManager;
-    private final TransitionPath<I, O> transitionPath;
-    private final TransitionListener<I, O> delegator;
+    /**
+     * The transitional manager object to assign the next state.
+     */
+    protected final TransitionalManager<I, O> transitionalManager;
 
+    /**
+     * The transition path object to fetch the next state from.
+     */
+    protected final TransitionPath<I, O> transitionPath;
+
+    /**
+     * A user-listener to execute when transition is complete.
+     */
+    protected final TransitionListener<I, O> delegator;
+
+    /**
+     * Instantiates a transition listener that assigns a next state
+     * to a transitional manager, and incrementally dispatches another listener.
+     *
+     * @param transitionalManager the transitional manager object
+     * @param transitionPath a transition path object to assign its next state
+     * @param delegator another listener to delegate user actions from
+     */
     public NextStateAssigner(TransitionalManager<I, O> transitionalManager,
                              TransitionPath<I, O> transitionPath,
                              TransitionListener<I, O> delegator) {
