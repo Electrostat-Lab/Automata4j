@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.avrsandbox.fsa.core;
+package com.avrsandbox.fsa.core.transition;
 
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
@@ -41,6 +41,7 @@ import com.avrsandbox.fsa.core.state.AutoState;
  * @param <O> a class-generic representing the tracer object (output) value type
  * @author pavl_g
  * @see DeterministicManager#transit(TransitionPath, com.avrsandbox.fsa.core.state.TransitionListener)
+ * @see CascadedTransition for defining a cascade of transitions
  */
 public class TransitionPath<I, O> extends Transition<I, O> {
 
@@ -88,6 +89,15 @@ public class TransitionPath<I, O> extends Transition<I, O> {
      */
     public void assignPresentState(AutoState<I, O> presentState) {
         this.presentState = presentState;
+    }
+
+    /**
+     * Tests whether this transition path object has an assigned present state.
+     *
+     * @return true if there is an assigned present state, false otherwise (if null)
+     */
+    public boolean hasPresentState() {
+        return presentState != null;
     }
 
     /**
