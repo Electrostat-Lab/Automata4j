@@ -35,7 +35,7 @@ import com.avrsandbox.fsa.core.TransitionalManager;
 import com.avrsandbox.fsa.core.deterministic.DeterministicManager;
 import com.avrsandbox.fsa.core.state.AutoState;
 import com.avrsandbox.fsa.util.AutomataLogger;
-import com.avrsandbox.fsa.core.TransitionPath;
+import com.avrsandbox.fsa.core.transition.TransitionPath;
 
 /**
  * Tests the Deterministic Finite-State-Automaton Pattern through using {@link DeterministicManager}

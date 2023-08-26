@@ -19,6 +19,11 @@ tasks.register("SerialAdder") {
     application.mainClass.set("com.avrsandbox.fsa.example.simple.ndfsa.SerialAdder")
 }
 
+/** Runs the [TestCascadeTransitions] class only, to use type: └──╼ $./gradlew :automata4j-examples:TestCascadeTransitions :automata4j-examples:run */
+tasks.register("TestCascadeTransitions") {
+    application.mainClass.set("com.avrsandbox.fsa.example.cascadable.TestCascadeTransitions")
+}
+
 /** Runs the [TestDeterministicFiniteState] class only, to use type: └──╼ $./gradlew :automata4j-examples:TestDeterministicFiniteState :automata4j-examples:run */
 tasks.register("TestDeterministicFiniteState") {
     application.mainClass.set("com.avrsandbox.fsa.example.simple.dfsa.TestDeterministicFiniteState")
