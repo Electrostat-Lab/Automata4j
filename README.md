@@ -8,9 +8,7 @@ A finite state automaton framework for Java, Android, and jMonkeyEngine Applicat
 ## Building: 
 ```bash
 ┌─[pavl-machine@pavl-machine]─[/home/pavl-machine/projects]
-└──╼ $mkdir Automata4j && \
-     cd ./Automata4j && \
-     git clone https://github.com/Software-Hardware-Codesign/Automata4j.git
+└──╼ $git clone https://github.com/Software-Hardware-Codesign/Automata4j.git && cd ./Automata4j
 
 ┌─[pavl-machine@pavl-machine]─[/home/pavl-machine/projects/Automata4j]
 └──╼ $./gradlew automata4j:build && \
@@ -19,7 +17,7 @@ A finite state automaton framework for Java, Android, and jMonkeyEngine Applicat
 ``` 
 ## Implementation Example: 
 ```java
-final String version = "incubator"
+final String version = "1.0.0-beta"
 
 repositories {
     mavenCentral()
@@ -169,7 +167,7 @@ public final class SpaceCraftEngine extends Thread implements TransitionalListen
 - [x] Document describing the finite-state theory.
 - [x] Publishing to Maven for public use.
 - [x] Deterministic Finite-State-Automata.
-- [ ] Wiki for general use.
+- [x] Wiki for general use.
 
 ### Theory Archive: 
 - [Finite-State-Automaton Theory Archive, from Switching and Finite Automata Theory 3rd Edition](https://github.com/Software-Hardware-Codesign/Automata4j/blob/master/archives/Finite-State-Automata.pdf)
